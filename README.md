@@ -8,11 +8,9 @@ Our research approach uses topic modelling with Latent Dirichlet Allocation (LDA
 
 Generate output `index.html` file by running the following commands.
 
-````bash
-
 ```bash
 chmod +x run.sh
 ./run.sh
-````
+```
 
 Visualize the data opening the `output/index.html` file in a web browser.
