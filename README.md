@@ -2,7 +2,7 @@
 
 Analyze the data using topic modelling machine learning to group various topics in the LocalLLaMa subreddit, [LocalLLaMa Subreddit](https://www.reddit.com/r/LocalLLaMA/new/).
 
-Our research approach uses topic modelling with Latent Dirichlet Allocation (LDA) algorithm for unsupervised machine learning pipelining. The analyzer collects data from the LocalLLaMA subreddit, then runs topic clustering on queries related-to, and not related-to privacy. The data is read fetched from the Reddit API and tokened to multi-dimensional vectors. Then, dimensional reduction is applied to visualize and analyze demand for privacy and security in LocalLLaMA.
+Our research approach uses topic modelling with Latent Dirichlet Allocation (LDA) algorithm for unsupervised machine learning pipelining on r/LocalLLaMa. The pipeline collects over 1000 submission documents from the r/LocalLLaMA subreddit, then runs topic clustering on queries related-to the use cases and developer need for on-device and smaller LLaMA. The data is fetched from the Reddit API, sorted by relevance. Documents are tokened with multi-dimensional vector encoding, then dimensional reduction is applied to visualize and analyze demand for smaller, on-device applications in LocalLLaMA.
 
 ## Usage/Examples
 
