@@ -6,6 +6,7 @@ import nltk
 import string
 import pyLDAvis.gensim_models
 import gensim
+import csv
 
 """
 1. Get the search subreddit data for each query topic
@@ -26,14 +27,14 @@ def preprocess(text):
     return [lemmatizer.lemmatize(token) for token in tokens if token not in stop_words and len(token) > 1]
 
 def main():
-    PRIVACY_TOPICS = [
-        "security",
-        "privacy"
-    ]
+    PRIVACY_TOPICS = ["security", "privacy"]
+    LDA_OUTPUT = "./output/lda_output.csv"
+    LDA_VISUALIZATION = "./output/lda_visualization.html"
 
     # Get the search subreddit data for each query topic to list of strings
     documents = []
 
+    # Get the search subreddit data for each query topic
     for query in PRIVACY_TOPICS:
         data = subreddit.search_subreddit_data_max(query)
         documents.extend([submission_result.title for submission_result in data])
@@ -65,10 +66,24 @@ def main():
     # for title, topic in zip(documents, submission_topics):
     #     print(f'Title: "{title}" has been categorized under Topic: {topic}')
 
+    # Prepare the CSV data
+    csv_data = [["Title", "Assigned Topic", "Topic Keywords"]]
+    for title in documents:
+        bow = dictionary.doc2bow(preprocess(title))
+        topic_number, prob = max(lda_model[bow], key=lambda x: x[1])
+        topic_keywords = ", ".join([word for word, prob in lda_model.show_topic(topic_number, topn=10)])
+        csv_data.append([title, f"Topic {topic_number}", topic_keywords])
+
+    # Write the CSV data
+    with open(LDA_OUTPUT, 'w', newline='', encoding='utf-8') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerows(csv_data)
+
     # Prepare the visualization data
     vis_data = pyLDAvis.gensim_models.prepare(lda_model, corpus, dictionary, mds="mmds")
 
-    pyLDAvis.save_html(vis_data, "./output/lda_visualization.html")
+    # Save the visualization data to viewable HTML
+    pyLDAvis.save_html(vis_data, LDA_VISUALIZATION)
 
 if __name__ == "__main__":
     main()
