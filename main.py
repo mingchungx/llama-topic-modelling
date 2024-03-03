@@ -28,6 +28,7 @@ def preprocess(text):
 
 def main():
     PRIVACY_TOPICS = ["security", "privacy"]
+    DEVICE_TOPICS = ["on device", "embedded", "hardware", "device", "small"]
     LDA_OUTPUT = "./output/lda_output.csv"
     LDA_VISUALIZATION = "./output/index.html"
 
@@ -35,7 +36,7 @@ def main():
     documents = []
 
     # Get the search subreddit data for each query topic
-    for query in PRIVACY_TOPICS:
+    for query in DEVICE_TOPICS:
         data = subreddit.search_subreddit_data_max(query)
         documents.extend([submission_result.title for submission_result in data])
 
