@@ -6,11 +6,13 @@ Our research approach uses topic modelling with Latent Dirichlet Allocation (LDA
 
 ## Usage/Examples
 
-Generate output dataset by running:
+Generate output `lda_visualization.html` file by running the following commands.
+
+````bash
 
 ```bash
 chmod +x run.sh
 ./run.sh
-```
+````
 
 Visualize the data opening the `output/lda_visualization.html` file in a web browser.
