@@ -29,7 +29,7 @@ def preprocess(text):
 def main():
     PRIVACY_TOPICS = ["security", "privacy"]
     LDA_OUTPUT = "./output/lda_output.csv"
-    LDA_VISUALIZATION = "./output/lda_visualization.html"
+    LDA_VISUALIZATION = "./output/index.html"
 
     # Get the search subreddit data for each query topic to list of strings
     documents = []
