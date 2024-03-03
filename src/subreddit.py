@@ -25,14 +25,21 @@ MIN_SUBMISSIONS = 5 # this is our minimum number of submissions per request
 MAX_SUBMISSIONS = 1000 # this is defined maximum number of submissions per request
 
 class SubmissionResult:
-    def __init__(self, title, score):
+    def __init__(self, title, score, upvote_ratio, poster):
         self.title = title
         self.score = score
+        self.upvote_ratio = upvote_ratio
+        self.poster = poster
 
 def get_subreddit_data_min():
     data = []
     for submission in SUBREDDIT.top(limit=MIN_SUBMISSIONS):
-        submission_result = SubmissionResult(submission.title, submission.score)
+        submission_result = SubmissionResult(
+            submission.title,
+            submission.score,
+            submission.upvote_ratio,
+            submission.author if submission.author else "[deleted]"
+        )
         data.append(submission_result)
 
         # comments = reddit.submission(id=submission.id).comments
@@ -46,20 +53,35 @@ def get_subreddit_data_min():
 def search_subreddit_data_min(query="privacy"):
     data = []
     for submission in SUBREDDIT.search(query, sort="relevance", time_filter="all", limit=MIN_SUBMISSIONS):
-        submission_result = SubmissionResult(submission.title, submission.score)
+        submission_result = SubmissionResult(
+            submission.title,
+            submission.score,
+            submission.upvote_ratio,
+            submission.author if submission.author else "[deleted]"
+        )
         data.append(submission_result)
     return data
 
 def get_subreddit_data_max():
     data = []
     for submission in SUBREDDIT.top(limit=MAX_SUBMISSIONS):
-        submission_result = SubmissionResult(submission.title, submission.score)
+        submission_result = SubmissionResult(
+            submission.title,
+            submission.score,
+            submission.upvote_ratio,
+            submission.author if submission.author else "[deleted]"
+        )
         data.append(submission_result)
     return data
 
 def search_subreddit_data_max(query="privacy"):
     data = []
     for submission in SUBREDDIT.search(query, sort="relevance", time_filter="all", limit=MAX_SUBMISSIONS):
-        submission_result = SubmissionResult(submission.title, submission.score)
+        submission_result = SubmissionResult(
+            submission.title,
+            submission.score,
+            submission.upvote_ratio,
+            submission.author if submission.author else "[deleted]"
+        )
         data.append(submission_result)
     return data

@@ -28,17 +28,19 @@ def preprocess(text):
 
 def main():
     PRIVACY_TOPICS = ["security", "privacy"]
-    DEVICE_TOPICS = ["on device", "embedded", "hardware", "device", "small"]
+    DEVICE_TOPICS = ["on device", "embedded", "hardware", "device", "small", "android", "ios", "raspberry", "ar/vr", "wearable", "phone"]
     LDA_OUTPUT = "./output/lda_output.csv"
     LDA_VISUALIZATION = "./output/index.html"
 
     # Get the search subreddit data for each query topic to list of strings
     documents = []
+    submission_results = []
 
     # Get the search subreddit data for each query topic
     for query in DEVICE_TOPICS:
         data = subreddit.search_subreddit_data_max(query)
         documents.extend([submission_result.title for submission_result in data])
+        submission_results.extend(data)
 
     # Preprocess the titles
     processed_titles = [preprocess(title) for title in documents]
@@ -68,12 +70,13 @@ def main():
     #     print(f'Title: "{title}" has been categorized under Topic: {topic}')
 
     # Prepare the CSV data
-    csv_data = [["Title", "Assigned Topic", "Topic Keywords"]]
-    for title in documents:
+    csv_data = [["Title", "Assigned Topic", "Topic Keywords", "Upvote Ratio", "Poster"]]
+    for result in submission_results:
+        title = result.title
         bow = dictionary.doc2bow(preprocess(title))
-        topic_number, prob = max(lda_model[bow], key=lambda x: x[1])
-        topic_keywords = ", ".join([word for word, prob in lda_model.show_topic(topic_number, topn=10)])
-        csv_data.append([title, f"Topic {topic_number}", topic_keywords])
+        topic_number, _ = max(lda_model[bow], key=lambda x: x[1])
+        topic_keywords = ", ".join([word for word, _ in lda_model.show_topic(topic_number, topn=10)])
+        csv_data.append([title, f"Topic {topic_number}", topic_keywords, result.upvote_ratio, result.poster])
 
     # Write the CSV data
     with open(LDA_OUTPUT, 'w', newline='', encoding='utf-8') as csvfile:
