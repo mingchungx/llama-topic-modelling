@@ -68,7 +68,7 @@ def main():
     # Prepare the visualization data
     vis_data = pyLDAvis.gensim_models.prepare(lda_model, corpus, dictionary, mds="mmds")
 
-    pyLDAvis.save_html(vis_data, 'lda_visualization.html')
+    pyLDAvis.save_html(vis_data, "./output/lda_visualization.html")
 
 if __name__ == "__main__":
     main()
